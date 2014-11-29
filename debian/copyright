@@ -1,0 +1,7 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: monotonic
+Source: https://github.com/atdt/monotonic
+
+Files: *
+Copyright: (c) 2014 Ori Livneh <ori@wikimedia.org>
+License: Apache

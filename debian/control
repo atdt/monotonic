@@ -1,0 +1,36 @@
+Source: python-monotonic
+Section: python
+Priority: optional
+Maintainer: Ori Livneh <ori@wikimedia.org>
+Build-Depends: autopkgtest,
+               debhelper (>= 9),
+               python-all (>= 2.6.6-3~),
+               python-setuptools (>= 0.6b3),
+               python3-all,
+               python3-setuptools
+Standards-Version: 3.9.4
+Vcs-Browser: http://github.com/atdt/monotonic.git
+Vcs-Git: git://github.com/atdt/monotonic.git
+Homepage: https://pypi.python.org/pypi/monotonic
+
+Package: python-monotonic
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: ${misc:Depends}, ${python:Depends}
+Description: A monotonic clock implementation for Python
+ This module provides a monotonic() function which returns the
+ value (in fractional seconds) of a monotonic clock, i.e. a clock
+ which never goes backwards.
+ .
+ This package contains the Python 2.x module.
+
+Package: python3-monotonic
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: python3 (>= 3.2.3), ${misc:Depends}
+Description: A monotonic clock implementation for Python
+ This module provides a monotonic() function which returns the
+ value (in fractional seconds) of a monotonic clock, i.e. a clock
+ which never goes backwards.
+ .
+ This package contains the Python 3.x module.
