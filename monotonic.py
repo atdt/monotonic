@@ -113,7 +113,7 @@ except AttributeError:
                 return ts.tv_sec + ts.tv_nsec / 1.0e9
 
         # Perform a sanity-check.
-        if monotonic() - monotonic() >= 0:
+        if monotonic() - monotonic() > 0:
             raise ValueError('monotonic() is not monotonic!')
 
     except Exception:
