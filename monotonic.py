@@ -38,16 +38,29 @@
   limitations under the License.
 
 """
-from __future__ import absolute_import, division
-
 import ctypes
 import ctypes.util
 import os
+import platform
+import re
 import sys
 import time
 
 
 __all__ = ('monotonic',)
+
+
+def get_os_release():
+    """Get the leading numeric component of the OS release."""
+    return re.match('[\d.]+', platform.release()).group(0)
+
+
+def compare_versions(v1, v2):
+    """Compare two version strings."""
+    def normalize(v):
+        return map(int, re.sub(r'(\.0+)*$', '', v).split('.'))
+    return cmp(normalize(v1), normalize(v2))
+
 
 try:
     monotonic = time.monotonic
@@ -99,7 +112,10 @@ except AttributeError:
             ts = timespec()
 
             if sys.platform.startswith('linux'):
-                CLOCK_MONOTONIC = 1
+                if compare_versions(get_os_release(), '2.6.28') > 0:
+                    CLOCK_MONOTONIC = 4  # CLOCK_MONOTONIC_RAW
+                else:
+                    CLOCK_MONOTONIC = 1
             elif sys.platform.startswith('freebsd'):
                 CLOCK_MONOTONIC = 4
             elif 'bsd' in sys.platform:
