@@ -19,7 +19,7 @@ attempting to import this module (or to import from it) will
 cause a RuntimeError exception to be raised.
 
 monotonic is available via the Python Cheese Shop (PyPI):
-  https://pypi.python.org/pypi/monotonic/0.1
+  https://pypi.python.org/pypi/monotonic/
 
 License
 -------

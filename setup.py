@@ -31,7 +31,7 @@ except ImportError:
 
 setup(
     name='monotonic',
-    version='0.1',
+    version='0.2',
     license='Apache',
     author='Ori Livneh',
     author_email='ori@wikimedia.org',
