@@ -128,6 +128,8 @@ except AttributeError:
                     CLOCK_MONOTONIC = 1
             elif sys.platform.startswith('freebsd'):
                 CLOCK_MONOTONIC = 4
+            elif sys.platform.startswith('sunos5'):
+                CLOCK_MONOTONIC = 4
             elif 'bsd' in sys.platform:
                 CLOCK_MONOTONIC = 3
 
