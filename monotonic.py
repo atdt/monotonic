@@ -69,7 +69,7 @@ except AttributeError:
         if sys.platform == 'darwin':  # OS X, iOS
             # See Technical Q&A QA1398 of the Mac Developer Library:
             #  <https://developer.apple.com/library/mac/qa/qa1398/>
-            libc = ctypes.CDLL('libc.dylib', use_errno=True)
+            libc = ctypes.CDLL('/usr/lib/libc.dylib', use_errno=True)
 
             class mach_timebase_info_data_t(ctypes.Structure):
                 """System timebase info. Defined in <mach/mach_time.h>."""
