@@ -41,25 +41,12 @@
 import ctypes
 import ctypes.util
 import os
-import platform
 import re
 import sys
 import time
 
 
 __all__ = ('monotonic',)
-
-
-def get_os_release():
-    """Get the leading numeric component of the OS release."""
-    return re.match('[\d.]+', platform.release()).group(0)
-
-
-def compare_versions(v1, v2):
-    """Compare two version strings."""
-    def normalize(v):
-        return map(int, re.sub(r'(\.0+)*$', '', v).split('.'))
-    return cmp(normalize(v1), normalize(v2))
 
 
 try:
