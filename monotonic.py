@@ -120,10 +120,7 @@ except AttributeError:
                             ('tv_nsec', ctypes.c_long))
 
             if sys.platform.startswith('linux'):
-                if compare_versions(get_os_release(), '2.6.28') > 0:
-                    CLOCK_MONOTONIC = 4  # CLOCK_MONOTONIC_RAW
-                else:
-                    CLOCK_MONOTONIC = 1
+                CLOCK_MONOTONIC = 1
             elif sys.platform.startswith('freebsd'):
                 CLOCK_MONOTONIC = 4
             elif sys.platform.startswith('sunos5'):
