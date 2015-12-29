@@ -13,7 +13,7 @@ it will fall back to an equivalent implementation:
 +-------------+--------------------+
 | Linux, BSD  | clock_gettime(3)   |
 +-------------+--------------------+
-| Windows     | GetTickCount64     |
+| Windows     | GetTickCount[64]   |
 +-------------+--------------------+
 | OS X        | mach_absolute_time |
 +-------------+--------------------+
