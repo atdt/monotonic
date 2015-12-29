@@ -107,15 +107,16 @@ except AttributeError:
             else:
                 kernel32 = ctypes.windll.kernel32
 
-            try:
+            GetTickCount64 = getattr(kernel32, 'GetTickCount64', None)
+            if GetTickCount64:
                 # Windows Vista / Windows Server 2008 or newer.
-                GetTickCount64 = kernel32.GetTickCount64
                 GetTickCount64.restype = ctypes.c_ulonglong
 
                 def monotonic():
                     """Monotonic clock, cannot go backward."""
                     return GetTickCount64() / 1000.0
-            except AttributeError:
+
+            else:
                 # Before Windows Vista.
                 GetTickCount = kernel32.GetTickCount
                 GetTickCount.restype = ctypes.c_uint32
