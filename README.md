@@ -11,7 +11,7 @@ it will fall back to an equivalent implementation:
  OS          | Implementation
 -------------|-------------------------
  Linux, *BSD | [clock_gettime][1]
- Windows     | [GetTickCount64][2]
+ Windows     | [GetTickCount[64]][2]
  OS X        | [mach_absolute_time][3]
 
 If no suitable implementation exists for the current platform,

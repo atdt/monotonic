@@ -13,7 +13,7 @@
   +-------------+--------------------+
   | Linux, BSD  | clock_gettime(3)   |
   +-------------+--------------------+
-  | Windows     | GetTickCount64     |
+  | Windows     | GetTickCount[64]   |
   +-------------+--------------------+
   | OS X        | mach_absolute_time |
   +-------------+--------------------+
@@ -43,6 +43,7 @@ import ctypes.util
 import os
 import sys
 import time
+import threading
 
 
 __all__ = ('monotonic',)
@@ -73,24 +74,57 @@ except AttributeError:
                 """Monotonic clock, cannot go backward."""
                 return mach_absolute_time() / ticks_per_second
 
-        elif sys.platform.startswith('win32'):
-            # Windows Vista / Windows Server 2008 or newer.
-            GetTickCount64 = ctypes.windll.kernel32.GetTickCount64
-            GetTickCount64.restype = ctypes.c_ulonglong
+        elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
+            if sys.platform.startswith('cygwin'):
+                # Note: cygwin implements clock_gettime (CLOCK_MONOTONIC = 4) since
+                # version 1.7.6. Using raw WinAPI for maximum version compatibility.
 
-            def monotonic():
-                """Monotonic clock, cannot go backward."""
-                return GetTickCount64() / 1000.0
+                # Ugly hack using the wrong calling convention (in 32-bit mode) 
+                # because ctypes has no windll under cygwin (and it also seems that 
+                # the code letting you select stdcall in _ctypes doesn't exist under 
+                # the preprocessor definitions relevant to cygwin).
+                # This is 'safe' because:
+                # 1. The ABI of GetTickCount and GetTickCount64 is identical for 
+                #    both calling conventions because they both have no parameters.
+                # 2. libffi masks the problem because after making the call it doesn't
+                #    touch anything through esp and epilogue code restores a correct
+                #    esp from ebp afterwards.
+                kernel32 = ctypes.cdll.kernel32
+            else:
+                kernel32 = ctypes.windll.kernel32
 
-        elif sys.platform.startswith('cygwin'):
-            # Cygwin
-            kernel32 = ctypes.cdll.LoadLibrary('kernel32.dll')
-            GetTickCount64 = kernel32.GetTickCount64
-            GetTickCount64.restype = ctypes.c_ulonglong
+            GetTickCount64 = getattr(kernel32, 'GetTickCount64', None)
+            if GetTickCount64:
+                # Windows Vista / Windows Server 2008 or newer.
+                GetTickCount64.restype = ctypes.c_ulonglong
 
-            def monotonic():
-                """Monotonic clock, cannot go backward."""
-                return GetTickCount64() / 1000.0
+                def monotonic():
+                    """Monotonic clock, cannot go backward."""
+                    return GetTickCount64() / 1000.0
+
+            else:
+                # Before Windows Vista.
+                GetTickCount = kernel32.GetTickCount
+                GetTickCount.restype = ctypes.c_uint32
+
+                get_tick_count_lock = threading.Lock()
+                get_tick_count_last_sample = 0
+                get_tick_count_wraparounds = 0
+
+                def monotonic():
+                    """Monotonic clock, cannot go backward."""
+                    global get_tick_count_last_sample
+                    global get_tick_count_wraparounds
+
+                    with get_tick_count_lock:
+                        current_sample = GetTickCount()
+                        if current_sample < get_tick_count_last_sample:
+                            get_tick_count_wraparounds += 1
+                        get_tick_count_last_sample = current_sample
+
+                        final_milliseconds = get_tick_count_wraparounds << 32
+                        final_milliseconds += get_tick_count_last_sample
+                        return final_milliseconds / 1000.0
 
         else:
             try:
