@@ -23,7 +23,7 @@ monotonic is available via the Python Cheese Shop (PyPI):
 
 License
 -------
-Copyright 2014 Ori Livneh <ori@wikimedia.org>
+Copyright 2014-2016 Ori Livneh <ori@wikimedia.org>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
