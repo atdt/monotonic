@@ -10,20 +10,20 @@
   ``time.monotonic`` from the standard library. On older versions,
   it will fall back to an equivalent implementation:
 
-  +-------------+--------------------+
-  | Linux, BSD  | clock_gettime(3)   |
-  +-------------+--------------------+
-  | Windows     | GetTickCount[64]   |
-  +-------------+--------------------+
-  | OS X        | mach_absolute_time |
-  +-------------+--------------------+
+  +-------------+----------------------------------------+
+  | Linux, BSD  | ``clock_gettime(3)``                   |
+  +-------------+----------------------------------------+
+  | Windows     | ``GetTickCount`` or ``GetTickCount64`` |
+  +-------------+----------------------------------------+
+  | OS X        | ``mach_absolute_time``                 |
+  +-------------+----------------------------------------+
 
   If no suitable implementation exists for the current platform,
   attempting to import this module (or to import from it) will
-  cause a RuntimeError exception to be raised.
+  cause a ``RuntimeError`` exception to be raised.
 
 
-  Copyright 2014 Ori Livneh <ori@wikimedia.org>
+  Copyright 2014, 2015, 2016 Ori Livneh <ori@wikimedia.org>
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -42,8 +42,8 @@ import ctypes
 import ctypes.util
 import os
 import sys
-import time
 import threading
+import time
 
 
 __all__ = ('monotonic',)

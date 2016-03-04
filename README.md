@@ -9,9 +9,9 @@ On Python 3.3 or newer, ``monotonic`` will be an alias of
 it will fall back to an equivalent implementation:
 
  OS          | Implementation
--------------|-------------------------
+-------------|-----------------------------------------
  Linux, *BSD | [clock_gettime][1]
- Windows     | [GetTickCount[64]][2]
+ Windows     | [GetTickCount][2] or [GetTickCount64][3]
  OS X        | [mach_absolute_time][3]
 
 If no suitable implementation exists for the current platform,
@@ -23,7 +23,7 @@ monotonic is available via the Python Cheese Shop (PyPI):
 
 License
 -------
-Copyright 2014-2016 Ori Livneh <ori@wikimedia.org>
+Copyright 2014, 2015, 2016 Ori Livneh <ori@wikimedia.org>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,5 +39,6 @@ limitations under the License.
 
 [0]: https://docs.python.org/3/library/time.html#time.monotonic
 [1]: http://linux.die.net/man/3/clock_gettime
-[2]: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724411
-[3]: https://developer.apple.com/library/mac/qa/qa1398/
+[2]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724408
+[3]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724411
+[4]: https://developer.apple.com/library/mac/qa/qa1398/
