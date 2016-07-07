@@ -89,7 +89,10 @@ except AttributeError:
                 # 2. libffi masks the problem because after making the call it doesn't
                 #    touch anything through esp and epilogue code restores a correct
                 #    esp from ebp afterwards.
-                kernel32 = ctypes.cdll.kernel32
+                try:
+                    kernel32 = ctypes.cdll.kernel32
+                except OSError:  # 'No such file or directory'
+                    kernel32 = ctypes.cdll.LoadLibrary('kernel32.dll')
             else:
                 kernel32 = ctypes.windll.kernel32
 
