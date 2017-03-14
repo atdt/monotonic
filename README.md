@@ -8,11 +8,11 @@ On Python 3.3 or newer, ``monotonic`` will be an alias of
 [``time.monotonic``][0] from the standard library. On older versions,
 it will fall back to an equivalent implementation:
 
- OS          | Implementation
--------------|-----------------------------------------
- Linux, *BSD | [clock_gettime][1]
- Windows     | [GetTickCount][2] or [GetTickCount64][3]
- OS X        | [mach_absolute_time][3]
+ OS              | Implementation
+-----------------|-----------------------------------------
+ Linux, BSD, AIX | [clock_gettime][1]
+ Windows         | [GetTickCount][2] or [GetTickCount64][3]
+ OS X            | [mach_absolute_time][3]
 
 If no suitable implementation exists for the current platform,
 attempting to import this module (or to import from it) will
@@ -23,7 +23,7 @@ monotonic is available via the Python Cheese Shop (PyPI):
 
 License
 -------
-Copyright 2014, 2015, 2016 Ori Livneh <ori@wikimedia.org>
+Copyright 2014, 2015, 2016, 2017 Ori Livneh <ori@wikimedia.org>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

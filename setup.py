@@ -10,13 +10,13 @@ On Python 3.3 or newer, ``monotonic`` will be an alias of
 ``time.monotonic`` from the standard library. On older versions,
 it will fall back to an equivalent implementation:
 
-+-------------+----------------------------------------+
-| Linux, BSD  | ``clock_gettime(3)``                   |
-+-------------+----------------------------------------+
-| Windows     | ``GetTickCount`` or ``GetTickCount64`` |
-+-------------+----------------------------------------+
-| OS X        | ``mach_absolute_time``                 |
-+-------------+----------------------------------------+
++------------------+----------------------------------------+
+| Linux, BSD, AIX  | ``clock_gettime(3)``                   |
++------------------+----------------------------------------+
+| Windows          | ``GetTickCount`` or ``GetTickCount64`` |
++------------------+----------------------------------------+
+| OS X             | ``mach_absolute_time``                 |
++------------------+----------------------------------------+
 
 If no suitable implementation exists for the current platform,
 attempting to import this module (or to import from it) will
@@ -31,7 +31,7 @@ except ImportError:
 
 setup(
     name='monotonic',
-    version='1.2',
+    version='1.3',
     license='Apache',
     author='Ori Livneh',
     author_email='ori@wikimedia.org',
