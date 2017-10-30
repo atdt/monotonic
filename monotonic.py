@@ -165,5 +165,5 @@ except AttributeError:
         if monotonic() - monotonic() > 0:
             raise ValueError('monotonic() is not monotonic!')
 
-    except Exception:
-        raise RuntimeError('no suitable implementation for this system')
+    except Exception as e:
+        raise RuntimeError('no suitable implementation for this system: ' + repr(e))
