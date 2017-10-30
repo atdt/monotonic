@@ -133,7 +133,7 @@ except AttributeError:
             try:
                 clock_gettime = ctypes.CDLL(ctypes.util.find_library('c'),
                                             use_errno=True).clock_gettime
-            except AttributeError:
+            except Exception:
                 clock_gettime = ctypes.CDLL(ctypes.util.find_library('rt'),
                                             use_errno=True).clock_gettime
 
