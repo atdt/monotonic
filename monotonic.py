@@ -38,11 +38,6 @@
   limitations under the License.
 
 """
-import ctypes
-import ctypes.util
-import os
-import sys
-import threading
 import time
 
 
@@ -52,6 +47,11 @@ __all__ = ('monotonic',)
 try:
     monotonic = time.monotonic
 except AttributeError:
+    import ctypes
+    import ctypes.util
+    import os
+    import sys
+    import threading
     try:
         if sys.platform == 'darwin':  # OS X, iOS
             # See Technical Q&A QA1398 of the Mac Developer Library:
